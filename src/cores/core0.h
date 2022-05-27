@@ -31,7 +31,7 @@ void Core0(void *pvParameters)
     window = 0;
     old_window = 100;
     //tft.invertDisplay(true);
-    systemSettings sS();
+    systemSettings sS = systemSettings();
     //-init
     // loop
     for (;;)
