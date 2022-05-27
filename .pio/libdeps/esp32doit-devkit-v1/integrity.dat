@@ -1,0 +1,12 @@
+plerup/EspSoftwareSerial@^6.15.2
+gyverlibs/GyverButton@^3.8
+Wire
+Arduino
+adafruit/SdFat - Adafruit Fork@^1.5.1
+adafruit/Adafruit EPD@^4.4.3
+gyverlibs/GyverEncoder@^4.10
+adafruit/Adafruit BusIO@^1.11.2
+mikalhart/TinyGPSPlus@^1.0.3
+adafruit/Adafruit ImageReader Library@^2.7.0
+adafruit/Adafruit GFX Library@^1.10.13
+adafruit/Adafruit ST7735 and ST7789 Library@^1.9.2
