@@ -47,8 +47,8 @@ float move_map_coefficients[20] = {
     1,
     1,
     1,
-    0.1,
-    0.01};
+    0.001,
+    0.0001};
 
 int zooom = 15;
 
