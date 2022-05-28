@@ -10,6 +10,7 @@ void Core0(void *pvParameters)
     tft.cp437(true);
     tft.setRotation(3);
     tft.fillScreen(ST77XX_BLACK);
+    drawtext("загрузка и запуск", ST77XX_RED, tft.width()/2-60, tft.height()/2, tft);
     // large block of text
     // reader.loadBMP("/parrot.bmp", img);
     // reader.drawBMP("/parrot.bmp", tft, Y, X);
