@@ -70,6 +70,8 @@ bool panel_earsed = false;
 bool isPress1 = false;
 bool isPress2 = false;
 
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+
 #include "other/fakeSerial.h"
 #include "other/functions.h"
 #include "other/map_popups.h"
@@ -82,6 +84,14 @@ bool isPress2 = false;
 
 void setup(void)
 {
+
+  // Use this initializer if using a 1.8" TFT screen:
+  tft.setSPISpeed(65000000); // set speed
+  tft.initR(INITR_BLACKTAB);
+  tft.cp437(true);
+  tft.setRotation(3);
+  tft.fillScreen(ST77XX_BLACK);
+  drawtext("загрузка и запуск", ST77XX_RED, tft.width() / 2 - 60, tft.height() / 2, tft);
   xTaskCreatePinnedToCore(
       Core0, "core0" // A name just for humans
       ,
