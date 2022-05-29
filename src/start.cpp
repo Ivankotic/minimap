@@ -74,9 +74,9 @@ Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
 
 #include "other/fakeSerial.h"
 #include "other/functions.h"
-#include "other/map_popups.h"
 #include "other/panel.h"
 #include "other/systemSettings.h"
+#include "other/map_popups.h"
 #include "windows/map.h"
 #include "windows/flash_light.h"
 #include "cores/core0.h"

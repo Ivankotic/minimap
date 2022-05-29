@@ -1,11 +1,12 @@
 #pragma once
 
-int popup_list_change_zoom(Adafruit_ST7735 &tft)
+int popup_list_change_zoom(Adafruit_ST7735 &tft, systemSettings &sS)
 {
   stop_window();
   can_change_window = false;
   int out;
   int zooms[10] = {1, 3, 4, 6, 8, 10, 13, 15, 16, 17};
+  yvalue = get_index_by_value(zooms, sS.getZoom());
   enreadvalue = true;
   envalueinterval = 9;
   tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);

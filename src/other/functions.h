@@ -55,6 +55,17 @@ String utf8rus(String source)
   return (target);
 }
 
+int get_index_by_value(int array[10], int value)
+{
+  for (int i = 0; i < 10; i++)
+  {
+    if (array[i] == value)
+    {
+      return (i);
+    }
+  }
+}
+
 String read_from_card(String path_to_file)
 {
   SdFat sd;
@@ -200,7 +211,7 @@ void showcords(float y, float x, int zoom, Adafruit_ST7735 &tft)
   Serial.println("pt");
   // float x3 = x33;
   // float y3 = y33;
- // Serial.println(String(x_converted) + " " + String(y_converted) + " " + String(x) + " " + String(y));
+  // Serial.println(String(x_converted) + " " + String(y_converted) + " " + String(x) + " " + String(y));
   tft.fillScreen(ST77XX_WHITE);
   int int_x_converted = (int)x_converted;
   int int_y_converted = (int)y_converted;
@@ -240,6 +251,5 @@ void stop_window()
   isPress2 = false;
   can_change_window = true;
 }
-
 
 //-functions
