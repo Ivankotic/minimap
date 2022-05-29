@@ -64,6 +64,7 @@ int get_index_by_value(int array[10], int value)
       return (i);
     }
   }
+  return(0);
 }
 
 String read_from_card(String path_to_file)
