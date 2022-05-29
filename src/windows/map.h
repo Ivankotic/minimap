@@ -75,6 +75,8 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
     }
 
     if(isPress1) {
+        if (popup_list_map_options(tft) == 0) {
         sS.setZoom(popup_list_change_zoom(tft, sS));
+        }
     }
 }

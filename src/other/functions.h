@@ -209,11 +209,11 @@ void showcords(float y, float x, int zoom, Adafruit_ST7735 &tft)
   float x_converted = cordsconvert1(x, zoom);
   float y_converted = cordsconvert2(y, zoom);
   String fold = "/" + String(zoom) + ".3_tiles";
-  Serial.println("pt");
+  Serial.println(zoom);
   // float x3 = x33;
   // float y3 = y33;
   // Serial.println(String(x_converted) + " " + String(y_converted) + " " + String(x) + " " + String(y));
-  tft.fillScreen(ST77XX_WHITE);
+  tft.fillScreen(ST77XX_BLUE);
   int int_x_converted = (int)x_converted;
   int int_y_converted = (int)y_converted;
   int start_x = (int)(-((x_converted - int_x_converted) * 256) + LEFT_DISTANCE);
