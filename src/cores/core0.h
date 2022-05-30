@@ -3,6 +3,15 @@
 void Core0(void *pvParameters)
 {
     (void)pvParameters;
+
+    Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+    // Use this initializer if using a 1.8" TFT screen:
+    tft.setSPISpeed(65000000); // set speed
+    tft.initR(INITR_BLACKTAB);
+    tft.cp437(true);
+    tft.setRotation(3);
+    tft.fillScreen(ST77XX_BLACK);
+    drawtext("загрузка и запуск", ST77XX_RED, tft.width() / 2 - 60, tft.height() / 2, tft);
     // reader.loadBMP("/parrot.bmp", img);
     // reader.drawBMP("/parrot.bmp", tft, Y, X);
     TinyGPSPlus gps;

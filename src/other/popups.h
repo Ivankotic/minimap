@@ -15,7 +15,7 @@ int popup_list_change_zoom(Adafruit_ST7735 &tft, systemSettings &sS)
   while (true)
   {
     vTaskDelay(100);
-    tft.drawLine(29, 31, 29+90, 31, ST77XX_RED);
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
     int ite = 0;
     for (int i = 0; i < 10; i++)
     {
@@ -37,12 +37,24 @@ int popup_list_change_zoom(Adafruit_ST7735 &tft, systemSettings &sS)
       }
       ite++;
     }
-    tft.drawLine(29, 31, 29+90, 31, ST77XX_RED);
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
   }
 end:
   stop_window();
   panel_earsed = false;
   return out;
+}
+
+int popup_loading(Adafruit_ST7735 &tft)
+{
+  stop_window();
+  can_change_window = false;
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
+  tft.drawRect(29, 19, 91, 96, ST77XX_RED);
+  drawtext("ЗАГРУЗКА", ST77XX_RED, 31, 31 - 8, tft);
+  stop_window();
+  panel_earsed = false;
+  return (0);
 }
 
 int popup_list_map_options(Adafruit_ST7735 &tft)
@@ -60,7 +72,7 @@ int popup_list_map_options(Adafruit_ST7735 &tft)
   while (true)
   {
     vTaskDelay(100);
-    tft.drawLine(29, 31, 29+90, 31, ST77XX_RED);
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
     int ite = 0;
     for (int i = 0; i < 3; i++)
     {
@@ -82,7 +94,7 @@ int popup_list_map_options(Adafruit_ST7735 &tft)
       }
       ite++;
     }
-    tft.drawLine(29, 31, 29+90, 31, ST77XX_RED);
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
   }
 end:
   stop_window();

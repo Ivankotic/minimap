@@ -17,7 +17,8 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
     {
         if (gps.encode(SoftSerial.read()))
         {
-            if (gps.location.isValid()) {
+            if (gps.location.isValid())
+            {
                 // showcords("/6.3_tiles", 0, 0);
                 /*
                 testdrawtext("time   =     " + String(gps.time.hour() + 5) + ":" + String(gps.time.minute()), ST77XX_BLACK, 5, 10, tft);
@@ -33,7 +34,6 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
         }
     }
 
-    
     if (checksum != (xencode + yencode + xvalue + yvalue))
     {
         vTaskDelay(300);
@@ -41,17 +41,17 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
 
         zooom = sS.getZoom();
         showcords(yencode, xencode, zooom, tft);
-        
+
         double courseTol =
             TinyGPSPlus::courseTo(
-            yencode, xencode,
-            55.14643114923195, 61.382051867788256)*3.141592653589793238462643383279/180;
+                yencode, xencode,
+                55.14643114923195, 61.382051867788256) *
+            3.141592653589793238462643383279 / 180;
 
         unsigned long distanceTol =
             (unsigned long)TinyGPSPlus::distanceBetween(
-            yencode, xencode,
-            55.14643114923195, 61.382051867788256);
-        
+                yencode, xencode,
+                55.14643114923195, 61.382051867788256);
 
         long endx = ((tft.width() / 2) + LEFT_DISTANCE) + (sin(courseTol) * 300);
         long endy = ((tft.height() / 2) + TOP_DISTANCE) + (-cos(courseTol) * 300);
@@ -68,15 +68,17 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
         Serial.print(String(cos(courseTol)) + " ");
         Serial.println(sin(courseTol));
 
-        //write_to_card("mydir/testomb.txt", read_from_card("mydir/testomb.txt") + "sf");
-        //drawtext(read_from_card("mydir/testomb.txt"), ST77XX_GREEN, 0, 30, tft);
-        
-        
+        // write_to_card("mydir/testomb.txt", read_from_card("mydir/testomb.txt") + "sf");
+        // drawtext(read_from_card("mydir/testomb.txt"), ST77XX_GREEN, 0, 30, tft);
     }
 
-    if(isPress1) {
-        if (popup_list_map_options(tft) == 0) {
-        sS.setZoom(popup_list_change_zoom(tft, sS));
+    if (isPress1)
+    {
+        if (popup_list_map_options(tft) == 0)
+        {
+            int new_zoom = popup_list_change_zoom(tft, sS);
+            popup_loading(tft);
+            sS.setZoom(new_zoom);
         }
     }
 }
