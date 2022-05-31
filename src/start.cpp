@@ -74,6 +74,7 @@ bool isPress2 = false;
 #include "other/fakeSerial.h"
 #include "other/functions.h"
 #include "other/panel.h"
+#include "other/readmeText.h"
 #include "other/systemSettings.h"
 #include "other/popups.h"
 #include "windows/map.h"
@@ -83,6 +84,7 @@ bool isPress2 = false;
 
 void setup(void)
 {
+  setCpuFrequencyMhz(240);
   xTaskCreatePinnedToCore(
       Core0, "core0" // A name just for humans
       ,

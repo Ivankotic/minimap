@@ -14,8 +14,9 @@ systemSettings::systemSettings()
     if (!(read_from_card("/system_data/data_state") == "normal"))
     {
         Serial.println(!(read_from_card("/system_data/data_state") == "normal"));
+        write_to_card("/readme.txt", readmeText);
+        vTaskDelay(20);
         make_dir("/system_data/");
-
         write_to_card("/system_data/data_state", "normal");
         vTaskDelay(20);
         write_to_card("/system_data/mapZoom", "13");
