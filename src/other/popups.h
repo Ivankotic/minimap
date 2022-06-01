@@ -62,19 +62,19 @@ int popup_list_map_options(Adafruit_ST7735 &tft)
   stop_window();
   can_change_window = false;
   int out;
-  String modes[3] = {"выб. масштаб", "выбрать цель", "выйти"};
+  String modes[6] = {"выб. масштаб", "сохр. точку", "откр. точку", "выб. цель", "тёмный режим", "выйти"};
   yvalue = 0;
   enreadvalue = true;
-  envalueinterval = 2;
+  envalueinterval = 5;
   tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
   tft.drawRect(29, 19, 91, 96, ST77XX_RED);
   drawtext("опции карты", ST77XX_RED, 31, 31 - 8, tft);
   while (true)
   {
-    vTaskDelay(100);
+    vTaskDelay(10);
     tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
     int ite = 0;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 6; i++)
     {
       String readedd = modes[i];
       if ((int)yvalue == i)

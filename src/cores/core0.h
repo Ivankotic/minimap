@@ -39,6 +39,7 @@ void Core0(void *pvParameters)
         if (old_window != window)
         {
             stop_window();
+            tft.invertDisplay(false);
         }
         old_window = window;
 

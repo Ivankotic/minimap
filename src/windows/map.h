@@ -3,6 +3,7 @@
 void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSerial, systemSettings &sS)
 {
     static float checksum = 0;
+    static bool doInvert = false;
     // delay(5000);
     enreadxy = true;
 
@@ -74,11 +75,33 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
 
     if (isPress1)
     {
-        if (popup_list_map_options(tft) == 0)
+        
+        switch (popup_list_map_options(tft))
         {
+        case 0: {//new zoom
             int new_zoom = popup_list_change_zoom(tft, sS);
             popup_loading(tft);
             sS.setZoom(new_zoom);
+            break;
+        }
+        case 1: { //save dot
+            break;
+        }
+        case 2: {//open dot
+            break;
+        }
+        case 3: {// select target
+            break;
+        }
+        case 4: {// dark mode
+            doInvert = !doInvert;
+            tft.invertDisplay(doInvert);
+            break;
+        }
+        case 5: {// exit
+            //nothing
+            break;
+        }
         }
     }
 }
