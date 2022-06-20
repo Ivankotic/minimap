@@ -48,19 +48,19 @@ void Core1(void *pvParameters)
             // norm
             if (button2.isSingle())
             {
-                xencode = xencode + move_map_coefficients[zooom];
+                xencode = xencode + (move_map_coefficients[zooom] * speed);
             }
             if (button2.isDouble())
             {
-                xencode = xencode - move_map_coefficients[zooom];
+                xencode = xencode - (move_map_coefficients[zooom] * speed);
             }
             if (button3.isSingle())
             {
-                yencode = yencode - move_map_coefficients[zooom];
+                yencode = yencode - (move_map_coefficients[zooom] * speed);
             }
             if (button3.isDouble())
             {
-                yencode = yencode + move_map_coefficients[zooom];
+                yencode = yencode + (move_map_coefficients[zooom] * speed);
             }
             //-norm
         }

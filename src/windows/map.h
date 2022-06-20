@@ -16,18 +16,19 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
 
     if (SoftSerial.available() > 0)
     {
+        //Serial.write(SoftSerial.read());
         if (gps.encode(SoftSerial.read()))
         {
             if (gps.location.isValid())
             {
                 // showcords("/6.3_tiles", 0, 0);
-                /*
-                testdrawtext("time   =     " + String(gps.time.hour() + 5) + ":" + String(gps.time.minute()), ST77XX_BLACK, 5, 10, tft);
-                testdrawtext("Y      =    " + String(gps.location.lat(), 5), ST77XX_BLACK, 5, 20, tft);
-                testdrawtext("x      =    " + String(gps.location.lng(), 5), ST77XX_BLACK, 5, 30, tft);
-                testdrawtext("Z      =     " + String(gps.altitude.meters()) + "m", ST77XX_BLACK, 5, 40, tft);
-                testdrawtext("Speed  =     " + String(gps.speed.kmph()) + "kmh", ST77XX_BLACK, 5, 50, tft);
-                */
+                
+                //testdrawtext("time   =     " + String(gps.time.hour() + 5) + ":" + String(gps.time.minute()), ST77XX_BLACK, 5, 10, tft);
+                //testdrawtext("Y      =    " + String(gps.location.lat(), 5), ST77XX_BLACK, 5, 20, tft);
+                //testdrawtext("x      =    " + String(gps.location.lng(), 5), ST77XX_BLACK, 5, 30, tft);
+                //testdrawtext("Z      =     " + String(gps.altitude.meters()) + "m", ST77XX_BLACK, 5, 40, tft);
+                //testdrawtext("Speed  =     " + String(gps.speed.kmph()) + "kmh", ST77XX_BLACK, 5, 50, tft);
+                
                 // delay(10000);
                 yencode = gps.location.lat();
                 xencode = gps.location.lng();
@@ -78,16 +79,18 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
         
         switch (popup_list_map_options(tft))
         {
-        case 0: {//new zoom
+        case 0: {// new zoom
             int new_zoom = popup_list_change_zoom(tft, sS);
             popup_loading(tft);
             sS.setZoom(new_zoom);
             break;
         }
-        case 1: { //save dot
+        case 1: {// save dot
+            popup_map_save_dot(tft, sS);
+            //popup_loading(tft);
             break;
         }
-        case 2: {//open dot
+        case 2: {// open dot
             break;
         }
         case 3: {// select target
@@ -98,7 +101,31 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
             tft.invertDisplay(doInvert);
             break;
         }
-        case 5: {// exit
+        case 5: {// set speed
+            static int old_res = 1;
+            switch (popup_map_set_speed(tft, old_res)) {
+                case 0: {
+                    old_res = 0;
+                    speed = 0.1;
+                    break;
+                }
+                case 1: {
+                    old_res = 1;
+                    speed = 1;
+                    break;
+                }
+                case 2: {
+                    old_res = 2;
+                    speed = 2.5;
+                    break;
+                }
+                case 3: {// exit
+                    break;
+                }
+            }
+            break;
+        }
+        case 6: {// exit
             //nothing
             break;
         }

@@ -29,31 +29,32 @@ float yx[2] = {55.107500062790585, 61.35156885039418};
 float yencode = yx[0];
 float xencode = yx[1];
 float move_map_coefficients[20] = {
-    15,
-    13,
+    40,
     10,
-    9,
     7,
-    5,
-    3,
-    2,
+    4,
     1,
-    1,
-    0.01,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    0.001,
-    0.0001};
+    0.7,
+    0.4,
+    0.1,
+    0.07,
+    0.04,
+    0.01,//10
+    0.007,
+    0.004,
+    0.001,//13
+    0.0007,
+    0.0004,
+    0.0001,
+    0.00007,
+    0.00004,
+    0.00001};
 
 int zooom = 15;
 
 bool enreadxy = false;
 
+float speed = 1;
 float xvalue = 0;
 float yvalue = 0;
 bool enreadvalue = true;
@@ -85,6 +86,7 @@ bool isPress2 = false;
 void setup(void)
 {
   setCpuFrequencyMhz(240);
+
   xTaskCreatePinnedToCore(
       Core0, "core0" // A name just for humans
       ,
@@ -95,7 +97,7 @@ void setup(void)
       NULL, 0);
 
   xTaskCreatePinnedToCore(
-      Core1, "core1", (1024 * 2 * 2 * 2 * 2 * 2 * 2) // Stack size
+      Core1, "core1", (1024 * 2 * 2 * 2 * 2 * 2) // Stack size
       ,
       NULL, 50 // Priority
       ,
