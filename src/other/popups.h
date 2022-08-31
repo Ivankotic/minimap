@@ -77,10 +77,10 @@ int popup_list_map_options(Adafruit_ST7735 &tft)
   stop_window();
   can_change_window = false;
   int out;
-  String modes[7] = {"выб. масштаб", "сохр. точку", "откр. точку", "выб. цель", "тёмный режим", "изм. скорость", "выйти"};
+  String modes[8] = {"выб. масштаб", "сохр. точку", "откр. точку", "выб. цель", "тёмный режим", "изм. скорость", "удалить точку", "выйти"};
   yvalue = 0;
   enreadvalue = true;
-  envalueinterval = 6;
+  envalueinterval = 7;
   tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
   tft.drawRect(29, 19, 91, 96, ST77XX_RED);
   drawtext("опции карты", ST77XX_RED, 31, 31 - 8, tft);
@@ -89,7 +89,7 @@ int popup_list_map_options(Adafruit_ST7735 &tft)
   {
     vTaskDelay(10);
     int ite = 0;
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
     {
       String readedd = modes[i];
       if ((int)yvalue == i)
@@ -117,13 +117,35 @@ end:
   return out;
 }
 
-int popup_map_save_dot(Adafruit_ST7735 &tft, systemSettings &sS)
+int popup_map_save_dot(Adafruit_ST7735 &tft, systemSettings &sS, float xa, float ya)
 {
   stop_window();
   can_change_window = false;
   tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
   tft.drawRect(29, 19, 91, 96, ST77XX_RED);
-  drawtext("КАААААРП", ST77XX_RED, 31, 31 - 8, tft);
+  drawtext("ЗАПИСЬ", ST77XX_RED, 31, 31 - 8, tft);
+  sS.saveDot(xa, ya, String(random(10000,99999)));
+  drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
+  vTaskDelay(1000);
+  stop_window();
+  panel_earsed = false;
+  return (0);
+}
+
+int popup_map_delete_dot(Adafruit_ST7735 &tft, systemSettings &sS)
+{
+  stop_window();
+  can_change_window = false;
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
+  tft.drawRect(29, 19, 91, 96, ST77XX_RED);
+  drawtext("УДАЛЕНИЕ", ST77XX_RED, 31, 31 - 8, tft);
+  drawtext("ПОСЛЕДНЕЙ", ST77XX_RED, 31, 31 - 8 + 8, tft);
+  drawtext("ТОЧКИ", ST77XX_RED, 31, 31 - 8 + 8 + 8, tft);
+  //sS.saveDot(xa, ya, String(random(10000,99999)));
+  vTaskDelay(1000);
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
+  drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
+  vTaskDelay(1000);
   stop_window();
   panel_earsed = false;
   return (0);

@@ -7,21 +7,49 @@ public:
 
     int getZoom();
     String setZoom(int int_to_write);
+    int saveDot(float xb, float yb, String name);
 };
 
 systemSettings::systemSettings()
 {
-    if (!(read_from_card("/system_data/data_state") == "normal"))
+    if (!(read_from_card("/systemData/data_state") == "normal"))
     {
-        Serial.println(!(read_from_card("/system_data/data_state") == "normal"));
+        Serial.println(!(read_from_card("/systemData/data_state") == "normal"));
         write_to_card("/readme.txt", readmeText);
         vTaskDelay(20);
-        make_dir("/system_data/");
-        write_to_card("/system_data/data_state", "normal");
+        make_dir("/systemData/");
+        write_to_card("/systemData/data_state", "normal");
         vTaskDelay(20);
-        write_to_card("/system_data/mapZoom", "13");
+        write_to_card("/systemData/mapZoom", "13");
+        vTaskDelay(20);
+        write_to_card("/systemData/dots", "0");
     }
     
+}
+
+int systemSettings::saveDot(float xb, float yb, String name) {
+    int dots_k = read_from_card("/systemData/dots").toInt();
+    if (dots_k > 8) {
+        return(1);
+    }
+    dots_k = dots_k + 1;
+    Serial.println(String(xb));
+
+    vTaskDelay(20);
+    write_to_card_fl("/systemData/dot_x_" + String(dots_k), xb);
+
+    vTaskDelay(20);
+    write_to_card_fl("/systemData/dot_y_" + String(dots_k), yb);
+
+    vTaskDelay(20);
+    write_to_card("/systemData/dot_name_" + String(dots_k), name);
+
+    Serial.println(dots_k);
+
+    vTaskDelay(20);
+    write_to_card("/systemData/dots", String(dots_k));
+
+    return(0);
 }
 
 int systemSettings::getZoom()
@@ -32,7 +60,7 @@ int systemSettings::getZoom()
         return (1);
     }
     File myFile;
-    myFile = sd.open("/system_data/mapZoom", FILE_READ);
+    myFile = sd.open("/systemData/mapZoom", FILE_READ);
     String readeddata = "";
     while (myFile.available())
     {
@@ -44,7 +72,7 @@ int systemSettings::getZoom()
 
 String systemSettings::setZoom(int int_to_write)
 {
-    String path = "/system_data/mapZoom";
+    String path = "/systemData/mapZoom";
     String to_write = String(int_to_write);
     SdFat sd;
     if (!sd.begin(SD_PIN, SD_SCK_MHZ(20)))

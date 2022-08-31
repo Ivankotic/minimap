@@ -154,6 +154,37 @@ String write_to_card(String path, String to_write)
   return ("ok");
 }
 
+String write_to_card_fl(String path, float fl_in)
+{
+  SdFat sd;
+  if (!sd.begin(SD_PIN, SD_SCK_MHZ(20)))
+  {
+    return ("err");
+  }
+  char *buf = new char[100];
+  path.toCharArray(buf, 100);
+  const char *str2 = (const char *)buf;
+  sd.remove(str2);
+  File myFile;
+
+  char bufferf[128];
+  snprintf(bufferf, 128, "%f", fl_in);
+
+  myFile = sd.open(str2, FILE_WRITE);
+  myFile.print(bufferf);
+  myFile.close();
+
+  Serial.print("s ");
+  Serial.print(bufferf);
+  Serial.print(" ");
+  Serial.print(path);
+  Serial.print(" ");
+  Serial.println(str2);
+
+  delete buf;
+  return ("ok");
+}
+
 String make_dir(String path)
 {
   SdFat sd;

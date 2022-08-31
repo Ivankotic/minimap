@@ -14,7 +14,7 @@ void Core0(void *pvParameters)
     drawtext("загрузка и запуск", ST77XX_RED, tft.width() / 2 - 60, tft.height() / 2, tft);
     /*
     Adafruit_Image *img = new Adafruit_Image();
-    SdFat SD;
+    SdFat SD;   
   Adafruit_ImageReader reader(SD);
   SD.begin(SD_PIN, SD_SCK_MHZ(25));
     reader.loadBMP("10.3_tiles/600/300.bmp", *img);
