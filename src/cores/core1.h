@@ -3,13 +3,13 @@
 void Core1(void *pvParameters)
 {
     (void)pvParameters;
-
+    float move_type = false;
     GButton button1(26);
     GButton button2(25);
     GButton button3(33);
-    button1.setDebounce(20);
-    button2.setDebounce(20);
-    button3.setDebounce(20);
+    button1.setDebounce(50);
+    button2.setDebounce(50);
+    button3.setDebounce(50);
     // init
     digitalWrite(27, LOW);
     digitalWrite(26, LOW);
@@ -46,21 +46,29 @@ void Core1(void *pvParameters)
         if (enreadxy)
         {
             // norm
-            if (button2.isSingle())
-            {
-                xencode = xencode + (move_map_coefficients[zooom] * speed);
+            if (button1.isDouble()) {
+                move_type = !move_type;
             }
-            if (button2.isDouble())
-            {
-                xencode = xencode - (move_map_coefficients[zooom] * speed);
+
+            if (move_type == true) {
+                if (button2.isPress()) {
+                    xencode = xencode + (move_map_coefficients[zooom] * speed);
+                }
+                
+                if (button3.isPress()) {
+                    yencode = yencode - (move_map_coefficients[zooom] * speed);
+                }
+                
             }
-            if (button3.isSingle())
-            {
-                yencode = yencode - (move_map_coefficients[zooom] * speed);
-            }
-            if (button3.isDouble())
-            {
-                yencode = yencode + (move_map_coefficients[zooom] * speed);
+            else if (move_type == false) {
+                if (button2.isPress()) {
+                    xencode = xencode - (move_map_coefficients[zooom] * speed);
+                }
+                
+                if (button3.isPress()) {
+                    yencode = yencode + (move_map_coefficients[zooom] * speed);
+                }
+                
             }
             //-norm
         }
@@ -68,36 +76,10 @@ void Core1(void *pvParameters)
         {
             // norm
             // Serial.println("move");
-            if (button2.isSingle())
+            if (button2.isPress())
             {
                 Serial.println("move");
-                xvalue = xvalue + 1;
-                if (xvalue > envalueinterval)
-                {
-                    xvalue = 0;
-                }
-                if (xvalue < 0)
-                {
-                    xvalue = envalueinterval;
-                }
-            }
-            if (button2.isDouble())
-            {
-                Serial.println("move");
-                xvalue = xvalue - 1;
-                if (xvalue > envalueinterval)
-                {
-                    xvalue = 0;
-                }
-                if (xvalue < 0)
-                {
-                    xvalue = envalueinterval;
-                }
-            }
-            if (button3.isSingle())
-            {
-                Serial.println("move");
-                yvalue = yvalue + 1;
+                yvalue = yvalue - 1;
                 if (yvalue > envalueinterval)
                 {
                     yvalue = 0;
@@ -107,10 +89,11 @@ void Core1(void *pvParameters)
                     yvalue = envalueinterval;
                 }
             }
-            if (button3.isDouble())
+
+            if (button3.isPress())
             {
-                Serial.println("move");
-                yvalue = yvalue - 1;
+                Serial.println("move2");
+                yvalue = yvalue + 1;
                 if (yvalue > envalueinterval)
                 {
                     yvalue = 0;
