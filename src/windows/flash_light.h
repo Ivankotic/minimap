@@ -48,7 +48,7 @@ void window_flash_light(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &
         if (readedd == "") break;
         if ((int)yvalue == i)
         {
-            drawtext(">", ST77XX_BLACK, 0, 30 + ite * 8 - 3, tft);
+            drawtext("-", ST77XX_BLACK, 0, 30 + ite * 8 - 3, tft);
             drawtext(readedd, ST77XX_BLACK, 0 + 10, 30 + ite * 8 - 3, tft);
             if (isPress1)
             {
@@ -61,7 +61,7 @@ void window_flash_light(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &
         }
         else
         {
-            tft.fillRect(0, 30 + ite * 8, 10, 8, ST77XX_WHITE);
+            tft.fillRect(0, 25 + ite * 8, 10, 8, ST77XX_WHITE);
             drawtext(readedd, ST77XX_BLACK, 0 + 10, 30 + ite * 8 - 3, tft);
         }
         ite++;
