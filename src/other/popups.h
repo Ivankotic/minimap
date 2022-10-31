@@ -151,6 +151,57 @@ int popup_map_delete_dot(Adafruit_ST7735 &tft, systemSettings &sS)
   return (0);
 }
 
+int popup_map_open_dot(Adafruit_ST7735 &tft, systemSettings &sS, float &o_x, float &o_y)
+{
+  stop_window();
+  can_change_window = false;
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
+  tft.drawRect(29, 19, 91, 96, ST77XX_RED);
+  drawtext("выбор точки", ST77XX_RED, 31, 31 - 8, tft);
+
+  //String dot_list[6];
+  sS.getDotList();
+  yvalue = 0;
+  enreadvalue = true;
+  envalueinterval = 9;
+  
+  while (true)
+  {
+    vTaskDelay(10);
+    int ite = 0;
+    for (int i = 0; i < 10; i++)
+    {
+      //String readedd = modes[i];
+      if ((int)yvalue == i)
+      {
+        drawtext(">", ST77XX_RED, 31, 34 + ite * 8, tft);
+        drawtext(dot_list[i], ST77XX_RED, 31 + 10, 34 + ite * 8, tft);
+        if (isPress1)
+        {
+          //out = yvalue;
+          goto end;
+        }
+      }
+      else
+      {
+        tft.fillRect(31, 34 + ite * 8, 10, 8, ST77XX_BLACK);
+        drawtext(dot_list[i], ST77XX_RED, 31 + 10, 34 + ite * 8, tft);
+      }
+      ite++;
+    }
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
+  }
+end:
+
+  //vTaskDelay(1000);
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
+  drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
+  vTaskDelay(1000);
+  stop_window();
+  panel_earsed = false;
+  return (0);
+}
+
 int popup_map_set_speed(Adafruit_ST7735 &tft, int old_result)
 {
   stop_window();

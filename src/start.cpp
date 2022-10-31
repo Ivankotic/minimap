@@ -71,6 +71,7 @@ bool panel_earsed = false;
 bool isPress1 = false;
 bool isPress2 = false;
 
+String dot_list[10] = {"", "", "", "", "", ""};
 
 #include "other/fakeSerial.h"
 #include "other/functions.h"

@@ -90,6 +90,7 @@ void window_map(Adafruit_ST7735 &tft, TinyGPSPlus &gps, SoftwareSerial &SoftSeri
             break;
         }
         case 2: {// open dot
+            popup_map_open_dot(tft, sS, xencode, yencode);
             break;
         }
         case 3: {// select target

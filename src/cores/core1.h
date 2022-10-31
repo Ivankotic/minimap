@@ -31,6 +31,7 @@ void Core1(void *pvParameters)
         button2.tick();
         button3.tick();
 
+        /*
         if (button2.isTriple()) {
         Serial.println("triple");
         }
@@ -39,7 +40,7 @@ void Core1(void *pvParameters)
         }
         if (button2.isSingle()) {
         Serial.println("single");
-        }
+        }*/
 
         
 
