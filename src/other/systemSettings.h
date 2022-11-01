@@ -80,6 +80,8 @@ int systemSettings::getDotList()
     {
         if (i > 9) break;
         dot_list[i] = read_from_card("/systemData/dot_name_" + String(i + 1));
+        dot_list_x[i] = read_from_card("/systemData/dot_x_" + String(i + 1));
+        dot_list_y[i] = read_from_card("/systemData/dot_y_" + String(i + 1));
         vTaskDelay(20);
     }
     return(0);

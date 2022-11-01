@@ -71,7 +71,10 @@ bool panel_earsed = false;
 bool isPress1 = false;
 bool isPress2 = false;
 
+//массивы для работы со списком сохранённых точек
 String dot_list[10] = {"", "", "", "", "", ""};
+String dot_list_x[10] = {"", "", "", "", "", ""};
+String dot_list_y[10] = {"", "", "", "", "", ""};
 
 #include "other/fakeSerial.h"
 #include "other/functions.h"
