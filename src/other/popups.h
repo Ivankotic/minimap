@@ -124,12 +124,26 @@ int popup_map_save_dot(Adafruit_ST7735 &tft, systemSettings &sS, float xa, float
   tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
   tft.drawRect(29, 19, 91, 96, ST77XX_RED);
   drawtext("ЗАПИСЬ", ST77XX_RED, 31, 31 - 8, tft);
-  sS.saveDot(xa, ya, String(random(10000,99999)));
-  drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
-  vTaskDelay(1000);
-  stop_window();
-  panel_earsed = false;
-  return (0);
+  String dot_name = String(random(10000,99999));
+  int result = sS.saveDot(xa, ya, dot_name);
+  if(result == 0) {
+    drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
+    tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED);
+    drawtext("сохранена", ST77XX_RED, 31, (31 - 8) + 8 * 2, tft);
+    drawtext("точка: ", ST77XX_RED, 31, (31 - 8) + 8 * 3, tft);
+    drawtext(dot_name, ST77XX_RED, 31, (31 - 8) + 8 * 5, tft);
+    vTaskDelay(3500);
+    stop_window();
+    panel_earsed = false;
+    return (0);
+  } else {
+    drawtext("НЕДОСТАТОЧНО", ST77XX_RED, 31, 31 - 8, tft);
+    drawtext("МЕСТА", ST77XX_RED, 31, 31 - 8 + 8 + 4, tft);
+    vTaskDelay(3000);
+    stop_window();
+    panel_earsed = false;
+    return (1);
+  }
 }
 
 int popup_map_delete_dot(Adafruit_ST7735 &tft, systemSettings &sS)
@@ -153,15 +167,15 @@ int popup_map_delete_dot(Adafruit_ST7735 &tft, systemSettings &sS)
 
 int popup_map_open_dot(Adafruit_ST7735 &tft, systemSettings &sS, float &o_x, float &o_y)
 {
-  stop_window(); //обнуляем флаги
-  can_change_window = false; //запрещаем переключать страницу
-  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK); //рисуем чёрный прямоугольник (основа для окна)
-  tft.drawRect(29, 19, 91, 96, ST77XX_RED); //рисуем рамку окна
+  stop_window(); // обнуляем флаги
+  can_change_window = false; // запрещаем переключать страницу
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK); // рисуем чёрный прямоугольник (основа для окна)
+  tft.drawRect(29, 19, 91, 96, ST77XX_RED); // рисуем рамку окна
   drawtext("выбор точки", ST77XX_RED, 31, 31 - 8, tft); // пишем название окна
-  tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED); // рисуем линию под названием
+  tft.drawLine(29, 31, 29 + 90, 31, ST77XX_RED); // рисуем линию под названием окна
 
   //String dot_list[6];
-  sS.getDotList(); // загружаем в память (в специальные глобальные переменные) из SD данные (список точек и их парамметры)
+  sS.getDots(); // загружаем в память (в специальные глобальные переменные) из SD данные (список точек и их парамметры)
   yvalue = 0; // обнуляем положение курсора
   enreadvalue = true; // сообщаем второму ядру, что нужно работать с циклическим списком
   envalueinterval = 9; // задаем длинну циклического списка для второго ядра (отсчет там идёт от 0, поэтому n-1)
@@ -171,17 +185,17 @@ int popup_map_open_dot(Adafruit_ST7735 &tft, systemSettings &sS, float &o_x, flo
   {
     vTaskDelay(10); // задержка для стабильности
 
-    for (int i = 0; i < 10; i++) //цикл отрисовки списка (i < длинна списка)
+    for (int i = 0; i < 10; i++) // цикл отрисовки списка (i < длинна списка)
     {
       //String readedd = modes[i];
-      if ((int)yvalue == i) //если курсор (двигаемый вторым ядром) указывает на отрисовываемый сейчас пунк списка
+      if ((int)yvalue == i) // если курсор (двигаемый вторым ядром) указывает на отрисовываемый сейчас пунк списка
       {
         drawtext(">", ST77XX_RED, 31, 34 + i * 8, tft); // рисуем курсор
         drawtext(dot_list[i], ST77XX_RED, 31 + 10, 34 + i * 8, tft); // пишем название пункта списка
         if (isPress1) // если есть нажатие кнопки "выбрать"
         {
-          out_num = yvalue;
-          goto end; //уходим из цикла
+          out_num = yvalue; // записываем положенние курсора в переменную для выбора точки из списка
+          goto end; // уходим из цикла
         }
       }
       else // иначе
@@ -194,14 +208,14 @@ int popup_map_open_dot(Adafruit_ST7735 &tft, systemSettings &sS, float &o_x, flo
 end:
 
   //vTaskDelay(1000);
-  o_x = dot_list_x[out_num].toFloat();
+  o_x = dot_list_x[out_num].toFloat(); // изменяем координаты на указанные в точке
   o_y = dot_list_y[out_num].toFloat();
-  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK);
-  drawtext("ГОТОВО", ST77XX_RED, 31, 31 - 8, tft);
-  vTaskDelay(1000);
-  stop_window();
-  panel_earsed = false;
-  return (0);
+  tft.fillRect(30, 20, 90, 95, ST77XX_BLACK); // закрашиваем окно в черный
+  drawtext("ЗАГРУЗКА", ST77XX_RED, 31, 31 - 8, tft); // пишем "ГОТОВО"
+  vTaskDelay(1000); // задержка для того чтобы успеть прочитать
+  stop_window(); // сбрасываем флаги
+  panel_earsed = false; // сообщаем что панель нужно перерисовать
+  return (0); // возвращаем 0
 }
 
 int popup_map_set_speed(Adafruit_ST7735 &tft, int old_result)

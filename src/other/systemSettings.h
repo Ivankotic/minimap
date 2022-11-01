@@ -8,7 +8,7 @@ public:
     int getZoom();
     String setZoom(int int_to_write);
     int saveDot(float xb, float yb, String name);
-    int getDotList();
+    int getDots();
 };
 
 systemSettings::systemSettings()
@@ -30,11 +30,11 @@ systemSettings::systemSettings()
 
 int systemSettings::saveDot(float xb, float yb, String name) {
     int dots_k = read_from_card("/systemData/dots").toInt();
-    /*
-    if ((dots_k + 1) > 6) {
+    
+    if ((dots_k + 1) > 10) {
         return(1);
     }
-    */
+    
     dots_k = dots_k + 1;
     Serial.println(String(xb));
 
@@ -73,7 +73,7 @@ int systemSettings::getZoom()
     return (readeddata.toInt());
 }
 
-int systemSettings::getDotList()
+int systemSettings::getDots()
 {
     int dots_k = read_from_card("/systemData/dots").toInt();
     for (int i = 0; i < dots_k; i++)
