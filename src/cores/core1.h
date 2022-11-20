@@ -7,9 +7,10 @@ void Core1(void *pvParameters)
     GButton button1(26);
     GButton button2(25);
     GButton button3(33);
-    button1.setDebounce(50);
-    button2.setDebounce(50);
-    button3.setDebounce(50);
+    button1.setDebounce(70);
+    button2.setDebounce(70);
+    button3.setDebounce(70);
+    Encoder enc(35, 32, 27, 1);
     // init
     digitalWrite(27, LOW);
     digitalWrite(26, LOW);
@@ -27,6 +28,7 @@ void Core1(void *pvParameters)
     //-init
     for (;;)
     {
+        enc.tick();
         button1.tick();
         button2.tick();
         button3.tick();
@@ -47,27 +49,26 @@ void Core1(void *pvParameters)
         if (enreadxy)
         {
             // norm
-            if (button1.isDouble()) {
+            if(enc.isClick()) {
                 move_type = !move_type;
-            }
-
-            if (move_type == true) {
-                if (button2.isPress()) {
-                    xencode = xencode + (move_map_coefficients[zooom] * speed);
-                }
-                
-                if (button3.isPress()) {
+            } 
+            if (move_type) {
+                if (enc.isRight()) {
                     yencode = yencode - (move_map_coefficients[zooom] * speed);
                 }
                 
-            }
-            else if (move_type == false) {
-                if (button2.isPress()) {
-                    xencode = xencode - (move_map_coefficients[zooom] * speed);
+                if (enc.isLeft()) {
+                    yencode = yencode + (move_map_coefficients[zooom] * speed);
                 }
                 
-                if (button3.isPress()) {
-                    yencode = yencode + (move_map_coefficients[zooom] * speed);
+            }
+            else {
+                if (enc.isRight()) {
+                    xencode = xencode + (move_map_coefficients[zooom] * speed);
+                }
+                
+                 if (enc.isLeft()) {
+                    xencode = xencode - (move_map_coefficients[zooom] * speed);
                 }
                 
             }

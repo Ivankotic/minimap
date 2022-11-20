@@ -85,7 +85,6 @@ int systemSettings::getDots()
         vTaskDelay(20);
     }
     return(0);
-
 }
 
 String systemSettings::setZoom(int int_to_write)

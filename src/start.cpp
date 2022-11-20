@@ -8,6 +8,7 @@
 #include <Adafruit_SPIFlash.h>    // SPI / QSPI flash library
 #include <Adafruit_ImageReader.h> // Image-reading functions
 #include <GyverButton.h>
+#include <GyverEncoder.h>
 #include "soc/rtc_wdt.h"
 
 #define LEFT_DISTANCE 0
